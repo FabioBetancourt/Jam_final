@@ -21,7 +21,6 @@ namespace Player
         public float deceleration = 0.1f;
         private Vector2 _movementInput;
         private Rigidbody rb;
-        public Basket basket;
 
 
         private void Awake()
