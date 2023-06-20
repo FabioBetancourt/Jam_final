@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -21,6 +22,7 @@ namespace Player
         public float deceleration = 0.1f;
         private Vector2 _movementInput;
         private Rigidbody rb;
+        private bool isGround;
 
 
         private void Awake()
@@ -46,9 +48,10 @@ namespace Player
                 rb.velocity = Vector3.Lerp( rb.velocity, new Vector3( movement.x, rb.velocity.y, movement.z), deceleration);
             }
             
-            if (playerInput.actions["Jump"].triggered && IsGrounded())
+            if (playerInput.actions["Jump"].triggered && isGround)
             {
                 rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+                isGround = false;
                 
             }
         }
@@ -60,6 +63,12 @@ namespace Player
             Ray ray = new Ray(transform.position, Vector3.down);
             return Physics.Raycast(ray, distance);
         }
-        
+
+        private void OnCollisionEnter(Collision other)
+        {
+            isGround = true;
+        }
     }
+    
+    
 }
