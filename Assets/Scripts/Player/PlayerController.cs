@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -19,9 +20,11 @@ namespace Player
         [Header("Deceleration")]
         [Tooltip("This is the deceleration of the player, the higher the number the faster the player will stop")]
         public float deceleration = 0.1f;
+        [Tooltip("This is the force of the jump, the higher the number the higher the jump")]
+        public float forceJump = 5f;
         private Vector2 _movementInput;
         private Rigidbody rb;
-
+        private bool isGround;
 
         private void Awake()
         {
@@ -32,7 +35,6 @@ namespace Player
         private void Update()
         {
             _movementInput = playerInput.actions["Move"].ReadValue<Vector2>();
-            
         }
 
         private void FixedUpdate()
@@ -46,20 +48,18 @@ namespace Player
                 rb.velocity = Vector3.Lerp( rb.velocity, new Vector3( movement.x, rb.velocity.y, movement.z), deceleration);
             }
             
-            if (playerInput.actions["Jump"].triggered && IsGrounded())
+            if (playerInput.actions["Jump"].triggered && isGround)
             {
-                rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+                rb.AddForce(Vector3.up * forceJump, ForceMode.Impulse);
+                isGround = false;
                 
             }
         }
-
-
-        private bool IsGrounded()
+        private void OnCollisionEnter(Collision other)
         {
-            float distance = GetComponent<Collider>().bounds.extents.y + 0.1f;
-            Ray ray = new Ray(transform.position, Vector3.down);
-            return Physics.Raycast(ray, distance);
+            isGround = true;
         }
-        
     }
+    
+    
 }
