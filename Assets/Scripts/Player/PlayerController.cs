@@ -43,8 +43,8 @@ namespace Player
             if (movement.magnitude > 0.1f)
             {
                 rb.velocity = Vector3.Lerp(rb.velocity, new Vector3( movement.x, rb.velocity.y, movement.z), accelaration);
-                Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
-                transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, speed * Time.deltaTime);
+                //Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
+                //transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, speed * Time.deltaTime);
             }else
             {
                 rb.velocity = Vector3.Lerp( rb.velocity, new Vector3( movement.x, rb.velocity.y, movement.z), deceleration);
