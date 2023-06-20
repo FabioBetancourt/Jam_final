@@ -9,6 +9,8 @@ public class PickUpTeleportItem : MonoBehaviour
     public float teleportUpDistance = 1.8f;
     [Tooltip("Distance the teleport back the player")]
     public float teleportBackDistance = 0.8f;
+    [Tooltip("Max distance to pick up an egg")]
+    public float closestDistance = 2f; 
     private PlayerInput playerInput;
     private Transform basketTransform;
     private Rigidbody playerRigidbody;
@@ -24,7 +26,6 @@ public class PickUpTeleportItem : MonoBehaviour
     {
         if(playerInput.actions["Recolection"].triggered)
         {
-            Debug.Log("Recolection action triggered"); 
             PickUp();
         }
     }
@@ -45,28 +46,24 @@ public class PickUpTeleportItem : MonoBehaviour
     }
     private GameObject GetClosestEgg()
     {
-        // Encuentra todos los objetos con la etiqueta "Egg" en la escena.
         GameObject[] eggs = GameObject.FindGameObjectsWithTag("Egg");
 
         GameObject closestEgg = null;
-        float closestDistance = Mathf.Infinity; // Establece la distancia más cercana en infinito para iniciar la búsqueda.
 
-        // Itera sobre todos los objetos con la etiqueta "Egg".
         foreach (GameObject egg in eggs)
         {
-            float distance = Vector3.Distance(transform.position, egg.transform.position); // Calcula la distancia desde el jugador hasta el "Egg".
+            float distance = Vector3.Distance(transform.position, egg.transform.position);
 
-            // Si la distancia calculada es menor que la distancia más cercana actual, actualiza la distancia más cercana y el "Egg" más cercano.
             if (distance < closestDistance)
             {
-                closestDistance = distance;
+                //closestDistance = distance;
                 closestEgg = egg;
             }
         }
 
-        // Devuelve el "Egg" más cercano.
         return closestEgg;
     }
+
 
 
 }
