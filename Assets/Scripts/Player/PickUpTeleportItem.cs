@@ -56,11 +56,9 @@ public class PickUpTeleportItem : MonoBehaviour
 
             if (distance < closestDistance)
             {
-                //closestDistance = distance;
                 closestEgg = egg;
             }
         }
-
         return closestEgg;
     }
 
