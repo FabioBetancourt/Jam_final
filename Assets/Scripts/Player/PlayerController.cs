@@ -1,10 +1,12 @@
+using System;
+using Bullets;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player
 {
     [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IShooteable
     {
         [SerializeField]
         private float playerSpeed = 2.0f;
@@ -14,25 +16,47 @@ namespace Player
         private float gravityValue = -9.81f;
         [SerializeField]
         private float rotationSpeed = 5f;
-        
+        [SerializeField]
+        private GameObject bulletPrefab;
+        [SerializeField]
+        private Transform barrelTransform;
+        [SerializeField] 
+        private Transform bulletParent;
+        [SerializeField] 
+        private float bulletHitMissDistance = 25f;
+        //variables for the player movement
         private CharacterController controller;
         private PlayerInput playerInput;
         private Vector3 playerVelocity;
         private bool groundedPlayer;
         private Transform cameraTransform;
-        
+        //input actions for the player
         private InputAction moveAction;
         private InputAction jumpAction;
-
-
-        private void Start()
+        private InputAction shootAction;
+     
+        private void Awake()
         {
             controller = GetComponent<CharacterController>();
             playerInput = GetComponent<PlayerInput>();
             //reading the position of the camera
             cameraTransform = Camera.main.transform;
+            //getting the input actions
             moveAction = playerInput.actions["Move"];
             jumpAction = playerInput.actions["Jump"];
+            shootAction = playerInput.actions["Shoot"];
+            //locked the cursor to the center of the screen
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        private void OnEnable()
+        {
+            shootAction.performed += _ => Shoot();
+        }
+
+        private void OnDisable()
+        {
+            shootAction.performed -= _ => Shoot();
         }
 
         void Update()
@@ -63,6 +87,23 @@ namespace Player
             Quaternion targetRotation = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
+        }
+
+        public void Shoot()
+        {
+            RaycastHit hit;
+            GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
+            BulletController bulletController = bullet.GetComponent<BulletController>();
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
+            {
+                bulletController.target = hit.point;
+                bulletController.hit = true;
+            }
+            else
+            {
+                bulletController.target = cameraTransform.position + cameraTransform.forward * bulletHitMissDistance;
+                bulletController.hit = false;
+            }
         }
     }
 }
