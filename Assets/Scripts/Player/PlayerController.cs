@@ -1,67 +1,68 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace Player
 {
+    [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
     public class PlayerController : MonoBehaviour
     {
-        [Header("Dont touch this")]
-        [Tooltip("Really dont touch this")]
-        public PlayerInput playerInput;
-        [Header("Speed")]
-        [Tooltip("This is the speed of the player")]
-        public float speed = 5.0f;
-        [Header("Acceleration")]
-        [Tooltip("This is the acceleration of the player, the higher the number the faster the player will reach max speed")]
-        public float accelaration = 0.1f;
-        [FormerlySerializedAs("decelaration")]
-        [Header("Deceleration")]
-        [Tooltip("This is the deceleration of the player, the higher the number the faster the player will stop")]
-        public float deceleration = 0.1f;
-        [Tooltip("This is the force of the jump, the higher the number the higher the jump")]
-        public float forceJump = 5f;
-        private Vector2 _movementInput;
-        private Rigidbody rb;
-        private bool isGround;
+        [SerializeField]
+        private float playerSpeed = 2.0f;
+        [SerializeField]
+        private float jumpHeight = 1.0f;
+        [SerializeField]
+        private float gravityValue = -9.81f;
+        [SerializeField]
+        private float rotationSpeed = 5f;
+        
+        private CharacterController controller;
+        private PlayerInput playerInput;
+        private Vector3 playerVelocity;
+        private bool groundedPlayer;
+        private Transform cameraTransform;
+        
+        private InputAction moveAction;
+        private InputAction jumpAction;
 
-        private void Awake()
+
+        private void Start()
         {
+            controller = GetComponent<CharacterController>();
             playerInput = GetComponent<PlayerInput>();
-            rb = GetComponent<Rigidbody>();
+            //reading the position of the camera
+            cameraTransform = Camera.main.transform;
+            moveAction = playerInput.actions["Move"];
+            jumpAction = playerInput.actions["Jump"];
         }
 
-        private void Update()
+        void Update()
         {
-            _movementInput = playerInput.actions["Move"].ReadValue<Vector2>();
-        }
-
-        private void FixedUpdate()
-        {
-            Vector3 movement = new Vector3(_movementInput.x, 0, _movementInput.y) * (speed);
-            if (movement.magnitude > 0.1f)
+            groundedPlayer = controller.isGrounded;
+            if (groundedPlayer && playerVelocity.y < 0)
             {
-                rb.velocity = Vector3.Lerp(rb.velocity, new Vector3( movement.x, rb.velocity.y, movement.z), accelaration);
-                //Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
-                //transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, speed * Time.deltaTime);
-            }else
-            {
-                rb.velocity = Vector3.Lerp( rb.velocity, new Vector3( movement.x, rb.velocity.y, movement.z), deceleration);
+                playerVelocity.y = 0f;
             }
+
+            Vector2 input = moveAction.ReadValue<Vector2>();
+            Vector3 move = new Vector3(input.x, 0, input.y);
+            //movement with the camera direction
+            move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
+            move.y = 0f;
+            controller.Move(move * (Time.deltaTime * playerSpeed));
             
-            if (playerInput.actions["Jump"].triggered && isGround)
+            // Changes the height position of the player..
+            if (jumpAction.triggered && groundedPlayer)
             {
-                rb.AddForce(Vector3.up * forceJump, ForceMode.Impulse);
-                isGround = false;
-                
+                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
             }
-        }
-        private void OnCollisionEnter(Collision other)
-        {
-            isGround = true;
+
+            playerVelocity.y += gravityValue * Time.deltaTime;
+            controller.Move(playerVelocity * Time.deltaTime);
+            
+            //rotate towards camera direction
+            Quaternion targetRotation = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
         }
     }
-    
-    
 }
