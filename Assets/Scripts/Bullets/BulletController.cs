@@ -1,61 +1,73 @@
-﻿using System;
-using UnityEngine;
-
+﻿using UnityEngine;
 namespace Bullets
 {
     public class BulletController: MonoBehaviour
     {
         [SerializeField] 
-        private GameObject explosionPrefab; // Prefab de la explosión
+        private GameObject explosionPrefab; // prefab of the explosion
         [SerializeField] 
-        private AudioClip explosionSound; // Clip de audio de la explosión
-        private AudioSource audioSource; // AudioSource para reproducir el sonido
+        private AudioClip explosionSound; // explosion sound
+        private AudioSource audioSource; // AudioSource to play the explosion sound
 
-        private float speed = 50f;
-        private float timeToDestroy = 3f;
+        private float speed = 30f;
+        private float timeToLive = 5f;
+        private float timeLived = 0f;
         public Vector3 target {get; set;}
         public bool hit { get; set; }
         
         private void Start()
         {
-            // Obtén el componente AudioSource en este GameObject
-            // Asegúrate de que tu GameObject tenga un componente AudioSource
+            // get the AudioSource component
+            // required audiosource component
             audioSource = GetComponent<AudioSource>();
         }
 
         private void OnEnable()
         {
-            Destroy(gameObject, timeToDestroy);
+            timeLived = 0f;
         }
 
         private void Update()
         {
-            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-            if (hit && Vector3.Distance(transform.position, target) < 0.01f)
+            // If the bullet has reached its target, we return it to the pool
+            if ((target - transform.position).magnitude < 0.1f)
             {
-                Destroy(gameObject);
+                ReturnToPool();
+            }
+            else
+            {
+                // Move the bullet towards its target
+                transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+            }
+
+            // If the bullet has lived longer than its lifetime, we return it to the pool
+            timeLived += Time.deltaTime;
+            if (timeLived > timeToLive)
+            {
+                ReturnToPool();
             }
         }
 
         private void OnCollisionEnter(Collision other)
         {
-            //ContactPoint contact = other.GetContact(0);
-            //GameObject.Instantiate(bulletDecal, contact.point + contact.normal * .0001f, Quaternion.LookRotation(contact.normal));
-            //Destroy(gameObject);
             ContactPoint contact = other.GetContact(0);
 
-            // Crea la explosión
+            // create the explosion
             GameObject explosion = Instantiate(explosionPrefab, contact.point, Quaternion.LookRotation(contact.normal));
 
-            // Reproduce la animación de explosión
-            // Asegúrate de que tu prefab de explosión tenga un componente Animator o Animation configurado
+            // the explosion animation
             Animator explosionAnimator = explosion.GetComponent<Animator>();
-            explosionAnimator.Play("ExplosionAnimation"); // reemplace "ExplosionAnimation" con el nombre de tu animación
-
-            // Reproduce el sonido de la explosión
+            //explosionAnimator.Play("ExplosionAnimation"); // replace "ExplosionAnimation" with the name of your animation
+            // sound the explosion
             audioSource.PlayOneShot(explosionSound);
 
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            ReturnToPool();
         }
+
+        public void ReturnToPool()
+        {
+            BulletPool.Instance.ReturnToPool(gameObject);
         }
     }
+}

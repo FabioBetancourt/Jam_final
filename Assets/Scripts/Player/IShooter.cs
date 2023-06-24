@@ -1,6 +1,6 @@
 ﻿namespace Player
 {
-    public interface IShooteable
+    public interface IShooter
     {
         void Shoot();
     }
