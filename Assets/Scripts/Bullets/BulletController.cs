@@ -1,20 +1,21 @@
 ﻿using UnityEngine;
+using Enemies;
+
 namespace Bullets
 {
-    public class BulletController: MonoBehaviour
+    public class BulletController : MonoBehaviour
     {
-        [SerializeField] 
-        private GameObject explosionPrefab; // prefab of the explosion
-        [SerializeField] 
-        private AudioClip explosionSound; // explosion sound
+        [SerializeField] private GameObject explosionPrefab; // prefab of the explosion
+        [SerializeField] private AudioClip explosionSound; // explosion sound
+        public float damage = 10f; // damage of the bullet
         private AudioSource audioSource; // AudioSource to play the explosion sound
 
         private float speed = 30f;
-        private float timeToLive = 5f;
+        private float timeToLive = 8f;
         private float timeLived = 0f;
-        public Vector3 target {get; set;}
+        public Vector3 target { get; set; }
         public bool hit { get; set; }
-        
+
         private void Start()
         {
             // get the AudioSource component
@@ -60,6 +61,14 @@ namespace Bullets
             //explosionAnimator.Play("ExplosionAnimation"); // replace "ExplosionAnimation" with the name of your animation
             // sound the explosion
             audioSource.PlayOneShot(explosionSound);
+
+            // Check if the object we hit is an enemy
+            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                // If it is, deal damage to it
+                enemy.TakeDamage(damage);
+            }
 
             //Destroy(gameObject);
             ReturnToPool();
