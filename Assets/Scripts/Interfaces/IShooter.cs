@@ -1,4 +1,4 @@
-﻿namespace Player
+﻿namespace Interfaces
 {
     public interface IShooter
     {
