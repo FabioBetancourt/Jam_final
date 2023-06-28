@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Egg
+  - audio
+  - sfx
+  - Basket
   - Enemy
   layers:
   - Default
@@ -13,7 +16,7 @@ TagManager:
   - 
   - Water
   - UI
-  - Enviroment
+  - 
   - 
   - 
   - 

@@ -1,35 +1,35 @@
-﻿using System;
-using Interfaces;
-using UnityEngine;
+﻿    using System;
+    using Interfaces;
+    using UnityEngine;
 
-namespace Enemies
-{
-    public class Enemy: MonoBehaviour, IDamageable
+    namespace Enemies
     {
-        [SerializeField] private float initialHealth = 100f;
-        
-        public float Health { get; private set; }
-        
-        private void Awake()
+        public class Enemy: MonoBehaviour, IDamageable
         {
-            Health = initialHealth;
-        }
-
-        public void TakeDamage(float amount)
-        {
-            Health -= amount;
-            print(Health);
-            if (Health <= 0)
+            [SerializeField] private float initialHealth = 100f;
+            
+            public float Health { get; private set; }
+            
+            private void Awake()
             {
-                Die();
+                Health = initialHealth;
+            }
+
+            public void TakeDamage(float amount)
+            {
+                Health -= amount;
+                print(Health);
+                if (Health <= 0)
+                {
+                    Die();
+                }
+            }
+
+            private void Die()
+            {
+                // Aquí puedes poner lo que debe suceder cuando el enemigo muere.
+                // Por ejemplo, puedes destruir este objeto enemigo:
+                Destroy(gameObject);
             }
         }
-
-        private void Die()
-        {
-            // Aquí puedes poner lo que debe suceder cuando el enemigo muere.
-            // Por ejemplo, puedes destruir este objeto enemigo:
-            Destroy(gameObject);
-        }
     }
-}
