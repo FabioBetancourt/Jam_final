@@ -5,12 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 931fd7e472a774d7889a652cb6d4ba6d
   - enabled: 1
     path: Assets/Scenes/Fabio.unity
     guid: 92df26192e9085840bf2ca0268f5a29c
-  - enabled: 1
-    path: Assets/Scenes/ScoreFabio.unity
-    guid: 01ace18e3458474469d0ae64a062af3c
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 2b1caefc5639ea44cbca0f32c98f810a,
       type: 2}
