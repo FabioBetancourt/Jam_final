@@ -9,6 +9,7 @@ TagManager:
   - sfx
   - Basket
   - Enemy
+  - CollectedEgg
   layers:
   - Default
   - TransparentFX

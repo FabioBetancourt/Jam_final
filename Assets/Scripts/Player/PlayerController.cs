@@ -3,6 +3,7 @@ using Bullets;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace Player
 {
@@ -135,8 +136,7 @@ namespace Player
             print(Health);
             if (Health <= 0)
             {
-                // Implementar aquí lo que suceda cuando la salud del jugador llega a cero.
-                // Por ejemplo, cargar una escena de "Juego perdido".
+              
             }
         }
     }
