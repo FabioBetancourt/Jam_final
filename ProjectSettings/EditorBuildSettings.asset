@@ -8,9 +8,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Fabio.unity
     guid: 92df26192e9085840bf2ca0268f5a29c
-  - enabled: 1
-    path: Assets/Scenes/MenuInicio.unity
-    guid: 1e4e4d938d3924af18ff129f9b0bc489
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Santiak.unity
     guid: 62d24815daa8a4643a32132995acf34e
