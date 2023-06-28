@@ -1,25 +1,52 @@
+using Player;
+using TMPro;
 using UnityEngine;
 
 namespace Eggs
 {
     public class EggTeleporter : MonoBehaviour
     {
-        [Tooltip("Distance the teleport above the player")]
-        public float teleportUpDistance = 1f;
-        [Tooltip("Distance the teleport back the player")]
-        public float teleportBackDistance = 0.8f;
+        public TextMeshProUGUI messageText;
+        private bool isCollected = false;
+
+        private void OnTriggerEnter(Collider other)
+        {
+            // Comprueba si el objeto que entró en el trigger es el jugador y el huevo no ha sido recolectado
+            if (other.gameObject.CompareTag("Player") && !isCollected)
+            {
+                // Si es el jugador, muestra el mensaje
+                messageText.text = "You are close to an egg. Press F to collect it.";
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            // Comprueba si el objeto que salió del trigger es el jugador
+            if (other.gameObject.CompareTag("Player"))
+            {
+                // Si es el jugador, oculta el mensaje
+                messageText.text = "";
+            }
+        }
 
         public void Teleport()
         {
-            Rigidbody eggRigidbody = GetComponent<Rigidbody>();
-            if(eggRigidbody != null)
+            
+            // Cuando se recoja el huevo, se marca como recolectado.
+            isCollected = true;
+            // Oculta el mensaje si estaba siendo mostrado.
+            messageText.text = "";
+            gameObject.tag = "CollectedEgg";
+
+            
+            Basket basket = GameObject.FindGameObjectWithTag("Basket").GetComponent<Basket>();
+            if (!basket.IsFull) // Comprueba si la canasta está llena
             {
-                eggRigidbody.isKinematic = true;  // Desactiva las físicas para el teletransporte.
-                Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-                transform.position = playerTransform.position + Vector3.up * teleportUpDistance - playerTransform.forward * teleportBackDistance;  // Teletransporta el "Egg" 2 unidades arriba de la cabeza del jugador y media unidad detrás.
-                eggRigidbody.isKinematic = false;  // Reactiva las físicas para que el "Egg" caiga.
+                transform.SetParent(basket.transform);
+                transform.localPosition = basket.GetNextEggPosition();
+                basket.AddEgg(this.gameObject); // Añade el huevo a la canasta
             }
+
         }
     }
-
 }

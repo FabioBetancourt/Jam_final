@@ -1,109 +1,142 @@
 using System;
 using Bullets;
+using Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace Player
 {
     [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
-    public class PlayerController : MonoBehaviour, IShooter
+    public class PlayerController : MonoBehaviour, IShooter, IAttacker, IDamageable
     {
         [SerializeField] private float playerSpeed = 2.0f;
         [SerializeField] private float jumpHeight = 1.0f;
         [SerializeField] private float gravityValue = -9.81f;
+
         [SerializeField] private float rotationSpeed = 5f;
-        //[SerializeField] private GameObject bulletPrefab;
+
         [SerializeField] private Transform barrelTransform;
-        //[SerializeField] private Transform bulletParent;
+
         [SerializeField] private float bulletHitMissDistance = 25f;
         [SerializeField] private AudioClip shootClip;
-        private AudioSource audioSource;
+        [SerializeField] private float initialHealth = 100f;
+        [SerializeField] private float damage = 10f;
+        private AudioSource _audioSource;
 
-        //variables for the player movement
-        private CharacterController controller;
-        private PlayerInput playerInput;
-        private Vector3 playerVelocity;
-        private bool groundedPlayer;
-        //position of the camera
-        private Transform cameraTransform;
-        //input actions for the player
-        private InputAction moveAction;
-        private InputAction jumpAction;
-        private InputAction shootAction;
+        private CharacterController _controller;
+        private PlayerInput _playerInput;
+        private Vector3 _playerVelocity;
+
+        private bool _groundedPlayer;
+
+        private Transform _cameraTransform;
+
+        private InputAction _moveAction;
+        private InputAction _jumpAction;
+        private InputAction _shootAction;
+
+        public float Health { get; private set; }
+        public float Damage { get; private set; }
 
         private void Awake()
         {
-            controller = GetComponent<CharacterController>();
-            playerInput = GetComponent<PlayerInput>();
-            //reading the position of the camera
-            cameraTransform = Camera.main.transform;
-            //getting the input actions
-            moveAction = playerInput.actions["Move"];
-            jumpAction = playerInput.actions["Jump"];
-            shootAction = playerInput.actions["Shoot"];
-            //locked the cursor to the center of the screen
+            _controller = GetComponent<CharacterController>();
+            _playerInput = GetComponent<PlayerInput>();
+
+            _cameraTransform = Camera.main.transform;
+
+            _moveAction = _playerInput.actions["Move"];
+            _jumpAction = _playerInput.actions["Jump"];
+            _shootAction = _playerInput.actions["Shoot"];
+
             Cursor.lockState = CursorLockMode.Locked;
-            audioSource = GetComponent<AudioSource>();
+            _audioSource = GetComponent<AudioSource>();
+
+            Health = initialHealth;
+            Damage = damage;
         }
-        
+
         private void OnEnable()
         {
-            shootAction.performed += _ => Shoot();
+            _shootAction.performed += _ => Shoot();
         }
 
         private void OnDisable()
         {
-            shootAction.performed -= _ => Shoot();
+            _shootAction.performed -= _ => Shoot();
         }
 
         void Update()
         {
-            groundedPlayer = controller.isGrounded;
-            if (groundedPlayer && playerVelocity.y < 0)
+            _groundedPlayer = _controller.isGrounded;
+            if (_groundedPlayer && _playerVelocity.y < 0)
             {
-                playerVelocity.y = 0f;
+                _playerVelocity.y = 0f;
             }
 
-            Vector2 input = moveAction.ReadValue<Vector2>();
+            Vector2 input = _moveAction.ReadValue<Vector2>();
             Vector3 move = new Vector3(input.x, 0, input.y);
-            //movement with the camera direction
-            move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
+            move = move.x * _cameraTransform.right.normalized + move.z * _cameraTransform.forward.normalized;
             move.y = 0f;
-            controller.Move(move * (Time.deltaTime * playerSpeed));
+            _controller.Move(move * (Time.deltaTime * playerSpeed));
 
-            // Changes the height position of the player..
-            if (jumpAction.triggered && groundedPlayer)
+            if (_jumpAction.triggered && _groundedPlayer)
             {
-                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+                _playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
             }
 
-            playerVelocity.y += gravityValue * Time.deltaTime;
-            controller.Move(playerVelocity * Time.deltaTime);
+            _playerVelocity.y += gravityValue * Time.deltaTime;
+            _controller.Move(_playerVelocity * Time.deltaTime);
 
-            //rotate towards camera direction
-            Quaternion targetRotation = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f);
+            Quaternion targetRotation = Quaternion.Euler(0f, _cameraTransform.eulerAngles.y, 0f);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
         public void Shoot()
         {
             RaycastHit hit;
-            //GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
+
             GameObject bullet = BulletPool.Instance.Get();
             bullet.transform.position = barrelTransform.position;
             bullet.transform.rotation = Quaternion.identity;
-            bullet.SetActive(true); 
-            audioSource.PlayOneShot(shootClip);
+            bullet.SetActive(true);
+
+            _audioSource.PlayOneShot(shootClip);
+
             BulletController bulletController = bullet.GetComponent<BulletController>();
-            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
+            bulletController.damage = Damage; // Added line
+
+            if (Physics.Raycast(_cameraTransform.position, _cameraTransform.forward, out hit, Mathf.Infinity))
             {
                 bulletController.target = hit.point;
                 bulletController.hit = true;
-            }
+
+                IDamageable target = hit.transform.GetComponent<IDamageable>();
+                if (target != null)
+                {
+                    Attack(target);
+                }
+            }   
             else
             {
-                bulletController.target = cameraTransform.position + cameraTransform.forward * bulletHitMissDistance;
+                bulletController.target = _cameraTransform.position + _cameraTransform.forward * bulletHitMissDistance;
                 bulletController.hit = false;
+            }
+        }
+
+        public void Attack(IDamageable target)
+        {
+            target.TakeDamage(Damage);
+        }
+
+        public void TakeDamage(float amount)
+        {
+            Health -= amount;
+            print(Health);
+            if (Health <= 0)
+            {
+              
             }
         }
     }

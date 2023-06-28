@@ -1,8 +1,8 @@
-using System;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Cinemachine;
-namespace Player
+
+namespace Cameras
 {
     public class SwitchVCam : MonoBehaviour
     {
