@@ -10,7 +10,7 @@ namespace Player
         private List<GameObject> collectedEggs = new List<GameObject>();  // Lista para mantener un registro de los huevos recogidos.
         public TextMeshProUGUI messageText;
 
-        public bool IsFull => collectedEggs.Count >= 5;
+        public bool IsFull => collectedEggs.Count == 1;
         public int EggCount => collectedEggs.Count;
 
         public Vector3 GetNextEggPosition()
