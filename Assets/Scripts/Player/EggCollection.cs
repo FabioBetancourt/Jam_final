@@ -25,6 +25,12 @@ namespace Player
 
         private void CollectEgg()
         {
+            Basket basket = GameObject.FindGameObjectWithTag("Basket").GetComponent<Basket>();
+
+            // Si la canasta está llena, no recoger más huevos.
+            if (basket.IsFull)
+                return;
+
             GameObject egg = GetClosestEgg(); // Encuentra el "Egg" más cercano.
             if(egg != null)
             {
@@ -47,10 +53,7 @@ namespace Player
                     closestEgg = egg;
                 }
             }
-
             return smallestDistance <= closestDistance ? closestEgg : null;
         }
     }
-
-
 }
