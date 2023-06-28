@@ -18,8 +18,8 @@ public class AudioVolumen : MonoBehaviour
     {
         audios = GameObject.FindGameObjectsWithTag("audio"); //Busca todos los objetos con el tag "audio".
         effects = GameObject.FindGameObjectsWithTag("sfx"); //Busca todos los objetos con el tag "sfx".
-        controlVolumenAudio.value = PlayerPrefs.GetFloat("volumenSave", 1f); //Carga la información preguardada, si no tiene valor preguardado, lo deja con valor 1.
-        controlVolumenEffects.value = PlayerPrefs.GetFloat("volumenSave", 1f); //Carga la información preguardada, si no tiene valor preguardado, lo deja con valor 1.
+        controlVolumenAudio.value = PlayerPrefs.GetFloat("volumenSave", 0.5f); //Carga la información preguardada, si no tiene valor preguardado, lo deja con valor 0.5.
+        controlVolumenEffects.value = PlayerPrefs.GetFloat("volumenSave", 0.5f); //Carga la información preguardada, si no tiene valor preguardado, lo deja con valor 0.5.
 
         stopButton.onClick.AddListener(StopMusic);
     }
