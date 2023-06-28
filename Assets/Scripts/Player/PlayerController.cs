@@ -116,7 +116,7 @@ namespace Player
                 {
                     Attack(target);
                 }
-            }
+            }   
             else
             {
                 bulletController.target = _cameraTransform.position + _cameraTransform.forward * bulletHitMissDistance;
