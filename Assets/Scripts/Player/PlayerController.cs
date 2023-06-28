@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+
 namespace Player
 {
     [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
@@ -22,6 +23,8 @@ namespace Player
         [SerializeField] private AudioClip shootClip;
         [SerializeField] private float initialHealth = 100f;
         [SerializeField] private float damage = 10f;
+        [SerializeField] private Animator anim;
+
         private AudioSource _audioSource;
 
         private CharacterController _controller;
@@ -53,6 +56,8 @@ namespace Player
             Cursor.lockState = CursorLockMode.Locked;
             _audioSource = GetComponent<AudioSource>();
 
+            anim=GetComponent<Animator>();
+
             Health = initialHealth;
             Damage = damage;
         }
@@ -80,14 +85,20 @@ namespace Player
             move = move.x * _cameraTransform.right.normalized + move.z * _cameraTransform.forward.normalized;
             move.y = 0f;
             _controller.Move(move * (Time.deltaTime * playerSpeed));
+            anim.SetFloat("VelocityX",input.x);
+            anim.SetFloat("VelocityY",input.y);
+            anim.SetFloat("idle",move.magnitude);
+            anim.SetBool("IsonFloor",!_groundedPlayer);
 
             if (_jumpAction.triggered && _groundedPlayer)
             {
                 _playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+                anim.SetBool("IsonFloor", true);
             }
 
             _playerVelocity.y += gravityValue * Time.deltaTime;
             _controller.Move(_playerVelocity * Time.deltaTime);
+
 
             Quaternion targetRotation = Quaternion.Euler(0f, _cameraTransform.eulerAngles.y, 0f);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
