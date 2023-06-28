@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+
 public class ScriptUI : MonoBehaviour
 {
     [SerializeField] private GameObject pauseButton;
@@ -25,8 +27,9 @@ public class ScriptUI : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     
-    public void Quit()
+    public int numeroEscena;
+    public void iniciar()
     {
-        Application.Quit();
+        SceneManager.LoadScene(numeroEscena);
     }
 }
