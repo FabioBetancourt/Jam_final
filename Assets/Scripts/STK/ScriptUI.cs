@@ -7,6 +7,18 @@ public class ScriptUI : MonoBehaviour
 {
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject pauseMenu;
+    
+    private bool isPaused = false;
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused)
+                Resume();
+            else
+                Pause();
+        }
+    }
     public void Pause()
     {
         Time.timeScale = 0f;
@@ -31,5 +43,10 @@ public class ScriptUI : MonoBehaviour
     public void iniciar()
     {
         SceneManager.LoadScene(numeroEscena);
+    }
+    
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
