@@ -7,7 +7,7 @@ namespace Player
     public class Basket : MonoBehaviour
     {
         public float stackHeight = 0.2f;  // La altura en la que se apilan los huevos.
-        private List<GameObject> collectedEggs = new List<GameObject>();  // Lista para mantener un registro de los huevos recogidos.
+        private List<GameObject> collectedEggs = new();  // Lista para mantener un registro de los huevos recogidos.
         public TextMeshProUGUI messageText;
 
         public bool IsFull => collectedEggs.Count == 1;

@@ -56,7 +56,7 @@ namespace Player
             Cursor.lockState = CursorLockMode.Locked;
             _audioSource = GetComponent<AudioSource>();
 
-            anim=GetComponent<Animator>();
+            anim = GetComponent<Animator>();
 
             Health = initialHealth;
             Damage = damage;
@@ -85,10 +85,10 @@ namespace Player
             move = move.x * _cameraTransform.right.normalized + move.z * _cameraTransform.forward.normalized;
             move.y = 0f;
             _controller.Move(move * (Time.deltaTime * playerSpeed));
-            anim.SetFloat("VelocityX",input.x);
-            anim.SetFloat("VelocityY",input.y);
-            anim.SetFloat("idle",move.magnitude);
-            anim.SetBool("IsonFloor",!_groundedPlayer);
+            anim.SetFloat("VelocityX", input.x);
+            anim.SetFloat("VelocityY", input.y);
+            anim.SetFloat("idle", move.magnitude);
+            anim.SetBool("IsonFloor", !_groundedPlayer);
 
             if (_jumpAction.triggered && _groundedPlayer)
             {
@@ -128,7 +128,7 @@ namespace Player
                 {
                     Attack(target);
                 }
-            }   
+            }
             else
             {
                 bulletController.target = _cameraTransform.position + _cameraTransform.forward * bulletHitMissDistance;
@@ -147,7 +147,7 @@ namespace Player
             print(Health);
             if (Health <= 0)
             {
-              
+                SceneManager.LoadScene("Defeat"); 
             }
         }
     }
