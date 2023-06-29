@@ -1,15 +1,35 @@
 using UnityEngine;
-using UnityEngine.AI;   
+using UnityEngine.AI;
+
 namespace Enemies
 {
     public class EnemyFollowSystem : MonoBehaviour
     {
         public NavMeshAgent enemy;
         public Transform player;
-        
+        public float followRange = 10f;
+
+        private Vector3 _originalPosition;
+
+        private void Start()
+        {
+            _originalPosition = enemy.transform.position;
+        }
+
         void Update()
         {
-            enemy.SetDestination(player.position);
+
+            float distanceToPlayer = Vector3.Distance(player.position, enemy.transform.position);
+
+            if (distanceToPlayer <= followRange)
+            {
+                enemy.SetDestination(player.position);
+            }
+            else
+            {
+
+                enemy.SetDestination(_originalPosition);
+            }
         }
     }
 }
