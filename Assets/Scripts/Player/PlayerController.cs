@@ -1,5 +1,6 @@
 using System;
 using Bullets;
+using Enemies;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,6 +39,8 @@ namespace Player
         private InputAction _moveAction;
         private InputAction _jumpAction;
         private InputAction _shootAction;
+        private bool _isInDragonTrigger = false;
+        private Enemy _dragon;
 
         public float Health { get; private set; }
         public float Damage { get; private set; }
@@ -147,7 +150,27 @@ namespace Player
             print(Health);
             if (Health <= 0)
             {
-                SceneManager.LoadScene("Defeat"); 
+                SceneManager.LoadScene("Defeat");
+            }
+        }
+
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Dragon"))
+            {
+                _dragon = other.gameObject.GetComponent<Enemy>();
+                _isInDragonTrigger = true;
+                _dragon.PlayerInTrigger(_isInDragonTrigger);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.CompareTag("Dragon"))
+            {
+                _isInDragonTrigger = false;
+                _dragon.PlayerInTrigger(_isInDragonTrigger);
             }
         }
     }
