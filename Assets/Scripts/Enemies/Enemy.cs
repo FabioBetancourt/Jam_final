@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
+using Interfaces;
 
 namespace Enemies
 {
@@ -11,6 +11,9 @@ namespace Enemies
         private NavMeshAgent _agent;
         private bool _isImmune;
         public float Health { get; private set; }
+        private bool _isPlayerInTrigger = false;
+        private bool _isSpinning = false;
+        private bool _isResting = false;
 
         private void Awake()
         {
@@ -21,9 +24,9 @@ namespace Enemies
 
         public void TakeDamage(float amount)
         {
-            if (_isImmune) // Comprueba si el enemigo es inmune
+            if (_isImmune)
             {
-                return; // Si es inmune, no le hagas daño
+                return;
             }
             Health -= amount;
             print(Health);
@@ -37,17 +40,44 @@ namespace Enemies
         private void Die()
         {
             _isImmune = true;
-            // Desactiva el NavMeshAgent inmediatamente.
             _agent.enabled = false;
-            // Llama al método StopForSeconds después de 10 segundos.
             Invoke(nameof(StopForSeconds), 10f);
         }
 
         private void StopForSeconds()
         {
             _isImmune = false;
-            // Re-activa el NavMeshAgent después de que el método es llamado.
             _agent.enabled = true;
+        }
+
+        public void PlayerInTrigger(bool isInTrigger)
+        {
+            _isPlayerInTrigger = isInTrigger;
+            if(_isPlayerInTrigger && !_isSpinning && !_isResting)
+            {
+                StartCoroutine(SpinAndRest());
+            }
+        }
+
+        private IEnumerator SpinAndRest()
+        {
+            _isSpinning = true;
+            float spinStartTime = Time.time;
+            while (Time.time - spinStartTime < 10f)
+            {
+                transform.Rotate(Vector3.up, 360 * Time.deltaTime);
+                yield return null;
+            }
+            _isSpinning = false;
+
+            _isResting = true;
+            yield return new WaitForSeconds(5f);
+            _isResting = false;
+
+            if (_isPlayerInTrigger)
+            {
+                StartCoroutine(SpinAndRest());
+            }
         }
     }
 }
