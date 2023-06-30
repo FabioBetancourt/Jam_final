@@ -24,6 +24,7 @@ public class ScriptUI : MonoBehaviour
         Time.timeScale = 0f;
         pauseButton.SetActive(false);
         pauseMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void Resume()
