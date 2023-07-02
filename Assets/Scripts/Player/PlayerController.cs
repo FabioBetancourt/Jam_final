@@ -42,7 +42,7 @@ namespace Player
         private bool _isInDragonTrigger = false;
         private Enemy _dragon;
         public ScriptUI _scriptUI;
-
+    
         public float Health { get; private set; }
         public float Damage { get; private set; }
 
