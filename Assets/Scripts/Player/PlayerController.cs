@@ -41,6 +41,7 @@ namespace Player
         private InputAction _shootAction;
         private bool _isInDragonTrigger = false;
         private Enemy _dragon;
+        public ScriptUI _scriptUI;
 
         public float Health { get; private set; }
         public float Damage { get; private set; }
@@ -91,7 +92,7 @@ namespace Player
             anim.SetFloat("VelocityX", input.x);
             anim.SetFloat("VelocityY", input.y);
             anim.SetFloat("idle", move.magnitude);
-            anim.SetBool("IsonFloor", !_groundedPlayer);
+            anim.SetBool("IsonFloor", _groundedPlayer);
 
             if (_jumpAction.triggered && _groundedPlayer)
             {
@@ -109,13 +110,14 @@ namespace Player
 
         public void Shoot()
         {
+            if (_scriptUI.isPaused) return;
             RaycastHit hit;
 
             GameObject bullet = BulletPool.Instance.Get();
             bullet.transform.position = barrelTransform.position;
             bullet.transform.rotation = Quaternion.identity;
             bullet.SetActive(true);
-
+            
             _audioSource.PlayOneShot(shootClip);
 
             BulletController bulletController = bullet.GetComponent<BulletController>();
@@ -151,6 +153,7 @@ namespace Player
             if (Health <= 0)
             {
                 SceneManager.LoadScene("Defeat");
+                Cursor.lockState = CursorLockMode.None;
             }
         }
 

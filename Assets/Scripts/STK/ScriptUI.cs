@@ -7,8 +7,8 @@ public class ScriptUI : MonoBehaviour
 {
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject pauseMenu;
-    
-    private bool isPaused = false;
+
+    public bool isPaused = false;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -25,6 +25,7 @@ public class ScriptUI : MonoBehaviour
         pauseButton.SetActive(false);
         pauseMenu.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
+        isPaused = true;
     }
 
     public void Resume()
@@ -32,6 +33,8 @@ public class ScriptUI : MonoBehaviour
         Time.timeScale = 1f;
         pauseButton.SetActive(true);
         pauseMenu.SetActive(false);
+        isPaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     
     public void New_Game()
