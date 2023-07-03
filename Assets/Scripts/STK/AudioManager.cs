@@ -10,8 +10,8 @@ public class AudioManager : MonoBehaviour
     public Slider controlVolumenAudio;
     public Slider controlVolumenEffects;
 
-    public List<GameObject> audios;
-    public List<GameObject> effects;
+    private List<AudioSource> audioSources;
+    private List<AudioSource> effectSources;
 
     public Button stopButton;
     public AudioSource canvasAudioSource;
@@ -23,8 +23,28 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        audios = new List<GameObject>(GameObject.FindGameObjectsWithTag("audio"));
-        effects = new List<GameObject>(GameObject.FindGameObjectsWithTag("sfx"));
+        audioSources = new List<AudioSource>();
+        effectSources = new List<AudioSource>();
+
+        GameObject[] audioObjects = GameObject.FindGameObjectsWithTag("audio");
+        foreach (GameObject audioObject in audioObjects)
+        {
+            AudioSource audioSource = audioObject.GetComponent<AudioSource>();
+            if (audioSource != null)
+            {
+                audioSources.Add(audioSource);
+            }
+        }
+
+        GameObject[] effectObjects = GameObject.FindGameObjectsWithTag("sfx");
+        foreach (GameObject effectObject in effectObjects)
+        {
+            AudioSource effectSource = effectObject.GetComponent<AudioSource>();
+            if (effectSource != null)
+            {
+                effectSources.Add(effectSource);
+            }
+        }
 
         controlVolumenAudio.value = PlayerPrefs.GetFloat("volumenSave", 0.5f);
         controlVolumenEffects.value = PlayerPrefs.GetFloat("volumenSave", 0.5f);
@@ -46,35 +66,19 @@ public class AudioManager : MonoBehaviour
 
     private void UpdateAudioVolumes()
     {
-        foreach (GameObject au in audios.ToArray())
+        foreach (AudioSource audioSource in audioSources)
         {
-            if (au != null)
+            if (audioSource != null)
             {
-                AudioSource audioSource = au.GetComponent<AudioSource>();
-                if (audioSource != null)
-                {
-                    audioSource.volume = controlVolumenAudio.value;
-                }
-            }
-            else
-            {
-                audios.Remove(au);
+                audioSource.volume = controlVolumenAudio.value;
             }
         }
 
-        foreach (GameObject au in effects.ToArray())
+        foreach (AudioSource effectSource in effectSources)
         {
-            if (au != null)
+            if (effectSource != null)
             {
-                AudioSource audioSource = au.GetComponent<AudioSource>();
-                if (audioSource != null)
-                {
-                    audioSource.volume = controlVolumenEffects.value;
-                }
-            }
-            else
-            {
-                effects.Remove(au);
+                effectSource.volume = controlVolumenEffects.value;
             }
         }
     }
