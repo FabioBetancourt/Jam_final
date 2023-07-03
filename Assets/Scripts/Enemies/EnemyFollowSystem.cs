@@ -19,9 +19,9 @@ namespace Enemies
         void Update()
         {
 
-            float distanceToPlayer = Vector3.Distance(player.position, enemy.transform.position);
+            float distanceToThePlayer = Vector3.Distance(player.position, enemy.transform.position);
 
-            if (distanceToPlayer <= followRange)
+            if (distanceToThePlayer <= followRange)
             {
                 enemy.SetDestination(player.position);
             }

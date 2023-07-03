@@ -5,9 +5,11 @@ namespace Player
 {
     public class Score : MonoBehaviour
     {
-        // Texto que muestra la puntuación en la UI.
         public TextMeshProUGUI scoreText;
+        public TextMeshProUGUI scoreText2;
         public int score;
+        
+        
 
         public void AddPoints(int points)
         {
@@ -17,6 +19,7 @@ namespace Player
 
         private void UpdateScoreText()
         {
+            scoreText2.text = $"Score: {score}";
             scoreText.text = $"Score: {score}";
         }
     }

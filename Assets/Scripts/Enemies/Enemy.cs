@@ -29,7 +29,7 @@ namespace Enemies
                 return;
             }
             Health -= amount;
-            print(Health);
+            Debug.Log(Health);
             if (Health <= 0)
             {
                 Die();

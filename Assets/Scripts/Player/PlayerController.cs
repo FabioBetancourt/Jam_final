@@ -42,7 +42,7 @@ namespace Player
         private bool _isInDragonTrigger = false;
         private Enemy _dragon;
         public ScriptUI _scriptUI;
-    
+        public GameObject DefeatCanvas;
         public float Health { get; private set; }
         public float Damage { get; private set; }
 
@@ -121,7 +121,7 @@ namespace Player
             _audioSource.PlayOneShot(shootClip);
 
             BulletController bulletController = bullet.GetComponent<BulletController>();
-            bulletController.damage = Damage; // Added line
+            bulletController.damage = Damage; 
 
             if (Physics.Raycast(_cameraTransform.position, _cameraTransform.forward, out hit, Mathf.Infinity))
             {
@@ -152,8 +152,11 @@ namespace Player
             print(Health);
             if (Health <= 0)
             {
-                SceneManager.LoadScene("Defeat");
+                DefeatCanvas.SetActive(true);
+                Time.timeScale = 0f;
                 Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                //SceneManager.LoadScene("Defeat");
             }
         }
 

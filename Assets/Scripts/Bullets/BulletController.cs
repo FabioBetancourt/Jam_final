@@ -5,10 +5,9 @@ namespace Bullets
 {
     public class BulletController : MonoBehaviour
     {
-        [SerializeField] private GameObject explosionPrefab; // prefab of the explosion
-        [SerializeField] private AudioClip explosionSound; // explosion sound
-        public float damage = 10f; // damage of the bullet
-        private AudioSource audioSource; // AudioSource to play the explosion sound
+        [SerializeField] private GameObject explosionPrefab;
+        [SerializeField] private AudioClip explosionSound;
+        public float damage = 10f;
 
         private float speed = 30f;
         private float timeToLive = 8f;
@@ -16,11 +15,13 @@ namespace Bullets
         public Vector3 target { get; set; }
         public bool hit { get; set; }
 
+        private AudioSource audioSource;
+        private Rigidbody rb; // Añade esta línea
+
         private void Start()
         {
-            // get the AudioSource component
-            // required audiosource component
             audioSource = GetComponent<AudioSource>();
+            rb = GetComponent<Rigidbody>(); // Obtén una referencia al Rigidbody aquí
         }
 
         private void OnEnable()
@@ -30,18 +31,16 @@ namespace Bullets
 
         private void Update()
         {
-            // If the bullet has reached its target, we return it to the pool
             if ((target - transform.position).magnitude < 0.1f)
             {
                 ReturnToPool();
             }
             else
             {
-                // Move the bullet towards its target
-                transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+                // Utiliza MovePosition para mover la bala
+                rb.MovePosition(Vector3.MoveTowards(rb.position, target, speed * Time.deltaTime));
             }
 
-            // If the bullet has lived longer than its lifetime, we return it to the pool
             timeLived += Time.deltaTime;
             if (timeLived > timeToLive)
             {
