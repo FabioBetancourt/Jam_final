@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Dan.Enums;
 using Dan.Models;
-using Unity.Plastic.Newtonsoft.Json;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -37,8 +37,13 @@ namespace Dan.Main
             }));
         }
         
-        internal void ResetAndAuthorize(Action<string> callback)
+        internal void ResetAndAuthorize(Action<string> callback, Action onFinish)
         {
+            callback += guid =>
+            {
+                if (string.IsNullOrEmpty(guid)) return;
+                onFinish?.Invoke();
+            };
             PlayerPrefs.DeleteKey(PlayerPrefsGuidKey);
             Authorize(callback);
         }
@@ -82,8 +87,17 @@ namespace Dan.Main
             StartCoroutine(HandleRequest(request, callback, errorCallback));
         }
         
+#if UNITY_ANDROID
+        private class ForceAcceptAll : CertificateHandler
+        {
+            protected override bool ValidateCertificate(byte[] certificateData) => true;
+        }
+#endif
         private static IEnumerator HandleRequest(UnityWebRequest request, Action<bool> onComplete, Action<string> errorCallback = null)
         {
+#if UNITY_ANDROID
+            request.certificateHandler = new ForceAcceptAll();
+#endif
             yield return request.SendWebRequest();
 
             if (request.responseCode != 200)

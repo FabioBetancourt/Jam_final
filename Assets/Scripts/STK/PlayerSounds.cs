@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerSounds : MonoBehaviour
 {
@@ -8,52 +9,47 @@ public class PlayerSounds : MonoBehaviour
     public Transform ground;
 
     public AudioSource pasos;
-    private bool Hactivo;
-    private bool Vactivo;
+    public AudioSource salto;  
 
-    private void Update()
+    private PlayerInput _playerInput;
+    private InputAction _moveAction;
+    private InputAction _jumpAction;  
+
+    private void Awake()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        _playerInput = GetComponent<PlayerInput>();
+        _moveAction = _playerInput.actions["Move"];
+        _jumpAction = _playerInput.actions["Jump"];  
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        _moveAction.performed += ctx => CheckForMovement();
+        _moveAction.canceled += ctx => CheckForMovement();
 
-        if (Input.GetButtonDown("Horizontal"))
+        _jumpAction.performed += ctx => PlayJumpSound(); 
+    }
+
+    private void CheckForMovement()
+    {
+        float movementTolerance = 0.1f;
+        Vector2 move = _moveAction.ReadValue<Vector2>();
+
+        if (move.magnitude > movementTolerance)
         {
-            if (!Hactivo)
+            if (!pasos.isPlaying)
             {
-                Hactivo = true;
                 pasos.Play();
             }
         }
-
-        if (Input.GetButtonUp("Horizontal"))
+        else
         {
-            Hactivo = false;
-
-            if (!Vactivo)
-            {
-                pasos.Pause();
-            }
+            pasos.Pause();
         }
-
-        if (Input.GetButtonDown("Vertical"))
+    }
+    
+    private void PlayJumpSound()
+    {
+        if (!salto.isPlaying)  
         {
-            if (!Vactivo)
-            {
-                Vactivo = true;
-                pasos.Play();
-            }
-        }
-
-        if (Input.GetButtonUp("Vertical"))
-        {
-            Vactivo = false;
-
-            if (!Hactivo)
-            {
-                pasos.Pause();
-            }
+            salto.Play();
         }
     }
 }
