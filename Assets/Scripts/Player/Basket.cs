@@ -43,5 +43,11 @@ namespace Player
             collectedEggs.Clear();  // Limpia la lista de huevos recogidos.
             messageText.text = "";
         }
+        
+        public List<GameObject> GetCollectedEggs()
+        {
+            return new List<GameObject>(collectedEggs);
+        }
+
     }
 }
