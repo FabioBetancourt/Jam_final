@@ -1,104 +1,63 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    public float volume;
-
-    public Slider controlVolumenAudio;
-    public Slider controlVolumenEffects;
-
-    private List<AudioSource> audioSources;
-    private List<AudioSource> effectSources;
-
-    public Button stopButton;
-    public AudioSource canvasAudioSource;
+    public static AudioManager Instance { get; private set; }
+    
+    [SerializeField] private AudioMixerGroup Master;
+    [SerializeField] private AudioMixerGroup Music;
+    [SerializeField] private AudioMixerGroup SoundFX;
+    
+    [SerializeField] private Slider sliderMaster;
+    [SerializeField] private Slider sliderMusic;
+    [SerializeField] private Slider sliderSoundFX;
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        audioSources = new List<AudioSource>();
-        effectSources = new List<AudioSource>();
-
-        GameObject[] audioObjects = GameObject.FindGameObjectsWithTag("audio");
-        foreach (GameObject audioObject in audioObjects)
+        if (Instance == null)
         {
-            AudioSource audioSource = audioObject.GetComponent<AudioSource>();
-            if (audioSource != null)
-            {
-                audioSources.Add(audioSource);
-            }
+            Instance = this;
         }
-
-        GameObject[] effectObjects = GameObject.FindGameObjectsWithTag("sfx");
-        foreach (GameObject effectObject in effectObjects)
+        else
         {
-            AudioSource effectSource = effectObject.GetComponent<AudioSource>();
-            if (effectSource != null)
-            {
-                effectSources.Add(effectSource);
-            }
+            Destroy(gameObject);
         }
-
-        controlVolumenAudio.value = PlayerPrefs.GetFloat("volumenSave", 0.5f);
-        controlVolumenEffects.value = PlayerPrefs.GetFloat("volumenSave", 0.5f);
-
-        stopButton.onClick.AddListener(StopMusic);
-
-        controlVolumenAudio.onValueChanged.AddListener(UpdateVolume);
-        controlVolumenEffects.onValueChanged.AddListener(UpdateVolume);
-
-        volume = controlVolumenAudio.value;
-
-        UpdateAudioVolumes();
+        
+        sliderMaster.onValueChanged.AddListener(SetMaster);
+        sliderMusic.onValueChanged.AddListener(SetMusic);
+        sliderSoundFX.onValueChanged.AddListener(SetSoundFX);
     }
-
-    private void Update()
+    public void MuteMaster()
     {
-        UpdateAudioVolumes();
+        Master.audioMixer.SetFloat("Master", -80);
     }
 
-    private void UpdateAudioVolumes()
+    public void MuteMusic()
     {
-        foreach (AudioSource audioSource in audioSources)
-        {
-            if (audioSource != null)
-            {
-                audioSource.volume = controlVolumenAudio.value;
-            }
-        }
-
-        foreach (AudioSource effectSource in effectSources)
-        {
-            if (effectSource != null)
-            {
-                effectSource.volume = controlVolumenEffects.value;
-            }
-        }
+        Music.audioMixer.SetFloat("Music", -80);
     }
-
-    public void UpdateVolume(float value)
+    
+    public void MuteSoundFX()
     {
-        volume = value;
+        SoundFX.audioMixer.SetFloat("SoundFX", -80);
     }
-
-    public void guardarVolumen()
+    private void SetMaster(float value)
     {
-        PlayerPrefs.SetFloat("volumenSave", controlVolumenAudio.value);
-        PlayerPrefs.SetFloat("volumenSave", controlVolumenEffects.value);
+        Master.audioMixer.SetFloat("Master", value);
     }
-
-    private void StopMusic()
+    private void SetMusic(float value)
     {
-        if (canvasAudioSource.isPlaying)
-        {
-            canvasAudioSource.Stop();
-        }
+        Music.audioMixer.SetFloat("Music", value);
     }
+      
+    private void SetSoundFX(float value)
+    {
+        SoundFX.audioMixer.SetFloat("SoundFX", value);
+    }
+   
 }
