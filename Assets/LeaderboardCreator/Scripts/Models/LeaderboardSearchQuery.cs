@@ -18,7 +18,7 @@
             Skip = 0,
             Take = 0,
             Username = "",
-            TimePeriod = (int) TimePeriodType.AllTime
+            TimePeriod = TimePeriodType.AllTime
         };
         
         public static LeaderboardSearchQuery Paginated(int skip, int take) => 

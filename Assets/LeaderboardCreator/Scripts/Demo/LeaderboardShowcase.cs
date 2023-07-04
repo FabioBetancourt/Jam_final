@@ -7,7 +7,7 @@ namespace Dan.Demo
 {
     public class LeaderboardShowcase : MonoBehaviour
     {
-        [SerializeField] private string _leaderboardPublicKey = "1e66bc43188b7a0d9029382cec5334b2d0bf046e3bf9d48e648a3e5ffbb6a9e7";
+        [SerializeField] private string _leaderboardPublicKey;
         
         [SerializeField] private TextMeshProUGUI _playerScoreText;
         [SerializeField] private TextMeshProUGUI[] _entryFields;

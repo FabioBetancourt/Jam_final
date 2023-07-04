@@ -124,7 +124,6 @@ namespace Dan.Main
         /// <param name="errorCallback">Returns an error message if the request failed.</param>
         public static void UploadNewEntry(string publicKey, string username, int score, string extra, Action<bool> callback = null, Action<string> errorCallback = null)
         {
-            Log($"Uploading score: {score} for user: {username}");
             if (string.IsNullOrEmpty(publicKey))
             {
                 LogError("Public key cannot be null or empty!");
@@ -218,9 +217,9 @@ namespace Dan.Main
         /// <summary>
         /// Resets a player's unique identifier and allows them to submit a new entry to the leaderboard.
         /// </summary>
-        public static void ResetPlayer()
+        public static void ResetPlayer(Action onReset = null)
         {
-            _behaviour.ResetAndAuthorize(OnAuthorizationAttempted);
+            _behaviour.ResetAndAuthorize(OnAuthorizationAttempted, onReset);
         }
 
         internal static void Log(string message)
