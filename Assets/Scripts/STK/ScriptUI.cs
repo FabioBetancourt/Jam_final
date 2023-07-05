@@ -53,4 +53,9 @@ public class ScriptUI : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+    
+    public bool IsGamePaused()
+    {
+        return isPaused;
+    }
 }
