@@ -8,6 +8,7 @@ namespace safezone
 {
     public class DropZone : MonoBehaviour
     {
+        public AudioSource pointSound;
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
@@ -29,6 +30,11 @@ namespace safezone
                     if (score != null)
                     {
                         score.AddPoints(totalPoints);
+
+                        if (pointSound != null) 
+                        {
+                            pointSound.Play();
+                        }
 
                         // Borrar los huevos de la canasta.
                         basket.Clear();
