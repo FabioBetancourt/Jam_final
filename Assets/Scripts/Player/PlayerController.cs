@@ -21,13 +21,13 @@ namespace Player
         [SerializeField] private Transform barrelTransform;
 
         [SerializeField] private float bulletHitMissDistance = 25f;
-        [SerializeField] private AudioClip shootClip;
         [SerializeField] private float initialHealth = 100f;
         [SerializeField] private float damage = 10f;
         [SerializeField] private Animator anim;
+        [SerializeField] private AudioClip hurtClip;
+        [SerializeField] private AudioClip shootClip;
 
         private AudioSource _audioSource;
-        public ScriptUI scriptUI;
 
         private CharacterController _controller;
         private PlayerInput _playerInput;
@@ -154,7 +154,7 @@ namespace Player
         {
             Health -= amount;
             healthBar.UpdateHealthBar(Health);
-            print(Health);
+            _audioSource.PlayOneShot(hurtClip);
             if (Health <= 0)
             {
                 DefeatCanvas.SetActive(true);
