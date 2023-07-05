@@ -21,10 +21,11 @@ namespace Player
         [SerializeField] private Transform barrelTransform;
 
         [SerializeField] private float bulletHitMissDistance = 25f;
-        [SerializeField] private AudioClip shootClip;
         [SerializeField] private float initialHealth = 100f;
         [SerializeField] private float damage = 10f;
         [SerializeField] private Animator anim;
+        [SerializeField] private AudioClip hurtClip;
+        [SerializeField] private AudioClip shootClip;
 
         private AudioSource _audioSource;
 
@@ -41,8 +42,10 @@ namespace Player
         private InputAction _shootAction;
         private bool _isInDragonTrigger = false;
         private Enemy _dragon;
+
         public ScriptUI _scriptUI;
         public GameObject DefeatCanvas;
+        public HealthBar healthBar;
         public float Health { get; private set; }
         public float Damage { get; private set; }
 
@@ -64,6 +67,7 @@ namespace Player
 
             Health = initialHealth;
             Damage = damage;
+            healthBar.SetMaxHealth(Health);
         }
 
         private void OnEnable()
@@ -117,11 +121,11 @@ namespace Player
             bullet.transform.position = barrelTransform.position;
             bullet.transform.rotation = Quaternion.identity;
             bullet.SetActive(true);
-            
+
             _audioSource.PlayOneShot(shootClip);
 
             BulletController bulletController = bullet.GetComponent<BulletController>();
-            bulletController.damage = Damage; 
+            bulletController.damage = Damage;
 
             if (Physics.Raycast(_cameraTransform.position, _cameraTransform.forward, out hit, Mathf.Infinity))
             {
@@ -149,17 +153,16 @@ namespace Player
         public void TakeDamage(float amount)
         {
             Health -= amount;
-            print(Health);
+            healthBar.UpdateHealthBar(Health);
+            _audioSource.PlayOneShot(hurtClip);
             if (Health <= 0)
             {
                 DefeatCanvas.SetActive(true);
                 Time.timeScale = 0f;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                //SceneManager.LoadScene("Defeat");
             }
         }
-
 
         private void OnTriggerEnter(Collider other)
         {

@@ -13,6 +13,7 @@ public class PlayerSounds : MonoBehaviour
     private PlayerInput _playerInput;
     private InputAction _moveAction;
     private InputAction _jumpAction;
+    public ScriptUI scriptUI;
 
     private bool isMoving = false; // Variable para rastrear si el jugador se está moviendo
 
@@ -24,12 +25,15 @@ public class PlayerSounds : MonoBehaviour
 
         _moveAction.performed += ctx => CheckForMovement();
         _moveAction.canceled += ctx => CheckForMovement();
-
         _jumpAction.performed += ctx => PlayJumpSound();
     }
 
     private void CheckForMovement()
     {
+        if (scriptUI.IsGamePaused())
+        {
+            return;
+        }
         float movementTolerance = 0.1f;
         Vector2 move = _moveAction.ReadValue<Vector2>();
 
@@ -51,6 +55,10 @@ public class PlayerSounds : MonoBehaviour
 
     private void PlayJumpSound()
     {
+        if (scriptUI.IsGamePaused())
+        {
+            return;
+        }
         if (!salto.isPlaying)
         {
             salto.Play();
@@ -70,5 +78,11 @@ public class PlayerSounds : MonoBehaviour
         {
             pasos.UnPause();
         }
+    }
+    
+    public void StopAllSounds()
+    {
+        pasos.Stop();
+        salto.Stop();
     }
 }

@@ -65,4 +65,4 @@ MonoBehaviour:
   leaderboardKey: 10eac5528ab7d37c95a405a07c42d2f8d266e99874c502d1c26558d10c9e1a09
   badWords: []
   scoreManager: {fileID: 0}
-  delayInSeconds: 2
+  delayInSeconds: 5
