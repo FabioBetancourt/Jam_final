@@ -118,7 +118,11 @@ Material:
     - _ReceiveShadows: 1
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     - _Rotation: 0.63445437
+=======
+    - _Rotation: 5.2183347
+>>>>>>> parent of 11797e6 (rotation more natural)
 =======
     - _Rotation: 5.2183347
 >>>>>>> parent of 11797e6 (rotation more natural)
