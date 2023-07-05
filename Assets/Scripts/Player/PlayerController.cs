@@ -27,6 +27,7 @@ namespace Player
         [SerializeField] private Animator anim;
 
         private AudioSource _audioSource;
+        public ScriptUI scriptUI;
 
         private CharacterController _controller;
         private PlayerInput _playerInput;
@@ -41,8 +42,10 @@ namespace Player
         private InputAction _shootAction;
         private bool _isInDragonTrigger = false;
         private Enemy _dragon;
+
         public ScriptUI _scriptUI;
         public GameObject DefeatCanvas;
+        public HealthBar healthBar;
         public float Health { get; private set; }
         public float Damage { get; private set; }
 
@@ -64,6 +67,7 @@ namespace Player
 
             Health = initialHealth;
             Damage = damage;
+            healthBar.SetMaxHealth(Health);
         }
 
         private void OnEnable()
@@ -117,11 +121,11 @@ namespace Player
             bullet.transform.position = barrelTransform.position;
             bullet.transform.rotation = Quaternion.identity;
             bullet.SetActive(true);
-            
+
             _audioSource.PlayOneShot(shootClip);
 
             BulletController bulletController = bullet.GetComponent<BulletController>();
-            bulletController.damage = Damage; 
+            bulletController.damage = Damage;
 
             if (Physics.Raycast(_cameraTransform.position, _cameraTransform.forward, out hit, Mathf.Infinity))
             {
@@ -149,6 +153,7 @@ namespace Player
         public void TakeDamage(float amount)
         {
             Health -= amount;
+            healthBar.UpdateHealthBar(Health);
             print(Health);
             if (Health <= 0)
             {
@@ -156,10 +161,8 @@ namespace Player
                 Time.timeScale = 0f;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                //SceneManager.LoadScene("Defeat");
             }
         }
-
 
         private void OnTriggerEnter(Collider other)
         {

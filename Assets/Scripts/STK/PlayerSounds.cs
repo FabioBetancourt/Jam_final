@@ -79,4 +79,10 @@ public class PlayerSounds : MonoBehaviour
             pasos.UnPause();
         }
     }
+    
+    public void StopAllSounds()
+    {
+        pasos.Stop();
+        salto.Stop();
+    }
 }
