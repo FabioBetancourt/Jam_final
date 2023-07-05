@@ -8667,6 +8667,15 @@ PrefabInstance:
       propertyPath: m_TagString
       value: audio
       objectReference: {fileID: 0}
+    - target: {fileID: 2041610306723451980, guid: d05e9e61241b14941b65fa5e67ee123f,
+        type: 3}
+      propertyPath: m_text
+      value: 'CHICKEN
+
+        VS
+
+        DRAGONS'
+      objectReference: {fileID: 0}
     - target: {fileID: 2041610306930049842, guid: d05e9e61241b14941b65fa5e67ee123f,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10045,7 +10054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1662769810
 Transform:
   m_ObjectHideFlags: 0
