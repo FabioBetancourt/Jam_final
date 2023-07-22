@@ -1,18 +1,18 @@
-# Juego Unity: Adventure Shooter
+# Juego Unity: Chicken vs Dragon
 
-![Adventure Shooter Logo](link_to_logo.png)
+![Chicken vs Dragon Logo](link_to_logo.png)
 
 ## Descripción
 
-Adventure Shooter es un emocionante juego de acción en tercera persona desarrollado en Unity. En este juego, los jugadores se embarcarán en una emocionante aventura llena de acción y desafíos. El juego incorpora varios patrones de diseño, como el patrón Singleton y el Pooling System, para garantizar una experiencia de juego fluida y altamente optimizada.
+Chicken vs Dragon es un emocionante juego de acción desarrollado en Unity. En este juego, los jugadores se sumergirán en una épica batalla entre gallinas y dragones. Los jugadores tomarán el papel de valientes gallinas que deben enfrentarse a feroces dragones para salvar su granja y su reino. El juego incorpora varios patrones de diseño, como el patrón Singleton y el Pooling System, y utiliza arquitecturas para juegos que garantizan una experiencia de juego fluida y altamente optimizada.
 
 ## Características Principales
 
-- **Acción en Tercera Persona**: Los jugadores experimentarán la adrenalina de sumergirse en una emocionante acción en tercera persona con controles intuitivos y una jugabilidad emocionante.
+- **Batallas Épicas**: Los jugadores disfrutarán de emocionantes batallas entre gallinas y dragones, cada uno con sus habilidades únicas y ataques especiales.
 
-- **Diseño de Niveles Atractivos**: El juego presenta niveles cuidadosamente diseñados con entornos detallados y desafíos bien pensados para mantener a los jugadores comprometidos.
+- **Diseño de Niveles Desafiantes**: El juego presenta niveles bien diseñados y desafiantes, donde los jugadores deberán superar obstáculos y derrotar a poderosos enemigos.
 
-- **Sistema de Puntuación y Líderes**: Adventure Shooter incluye un leaderboard para que los jugadores puedan competir por las mejores puntuaciones y demostrar sus habilidades.
+- **Sistema de Puntuación y Líderes**: Chicken vs Dragon incluye un leaderboard para que los jugadores puedan competir por las mejores puntuaciones y demostrar sus habilidades.
 
 - **Pooling System**: La implementación del Pooling System asegura una gestión eficiente de los recursos y la reutilización de objetos, lo que mejora significativamente el rendimiento del juego.
 
@@ -20,9 +20,13 @@ Adventure Shooter es un emocionante juego de acción en tercera persona desarrol
 
 - **Arte y Sonidos Únicos**: Todos los gráficos y efectos de sonido en el juego son creados por talentosos artistas y diseñadores de sonido, lo que ofrece una experiencia visual y auditiva inmersiva.
 
+- **Arquitecturas para Juegos**: Chicken vs Dragon ha sido desarrollado utilizando arquitecturas específicas para juegos que facilitan la gestión de escenas, flujo del juego y sistemas de interacción. Se ha empleado el popular Cinemachine para lograr una cinematografía impresionante y un control de cámaras dinámico.
+
+- **New Input System de Unity**: Para una experiencia de juego más fluida y una mejor gestión de los controles, Chicken vs Dragon utiliza el New Input System de Unity, lo que permite un manejo más preciso y una configuración sencilla para diferentes dispositivos.
+
 ## Objetivo del Juego
 
-Adventure Shooter lleva a los jugadores a través de una emocionante aventura en la que deben enfrentarse a una serie de desafíos y enemigos para alcanzar el objetivo final. Los jugadores pueden mejorar sus habilidades, desbloquear armas y obtener poderes especiales a medida que avanzan en el juego.
+En Chicken vs Dragon, los jugadores asumirán el rol de valientes gallinas que deben proteger su granja y reino de la invasión de dragones malvados. Deben derrotar a los dragones en emocionantes batallas uno a uno, utilizando sus habilidades y ataques especiales para ganar.
 
 ## Patrones de Diseño
 
@@ -36,4 +40,4 @@ Para optimizar el rendimiento y evitar el costoso proceso de creación y destruc
 
 ## Conclusiones
 
-Adventure Shooter es un emocionante juego de acción en tercera persona desarrollado en Unity que combina una jugabilidad cautivadora con una implementación experta de patrones de diseño como Singleton y Pooling System. Los jugadores disfrutarán de una experiencia inmersiva gracias al arte y los efectos de sonido únicos creados por talentosos artistas. Con su leaderboard y desafiantes niveles, Adventure Shooter ofrece horas de diversión y entretenimiento para todos los amantes de los juegos de acción y aventura. ¡Prepárate para una emocionante aventura llena de acción y desafíos!
+Chicken vs Dragon es un emocionante juego de acción desarrollado en Unity que combina una jugabilidad cautivadora con una implementación experta de patrones de diseño como Singleton y Pooling System. Además, el uso de arquitecturas específicas para juegos, como Cinemachine, garantiza una experiencia de juego visualmente impresionante y cinematográfica. Los jugadores disfrutarán de una experiencia inmersiva gracias al arte y los efectos de sonido únicos creados por talentosos artistas. Con su leaderboard y desafiantes niveles, Chicken vs Dragon ofrece horas de diversión y entretenimiento para todos los amantes de los juegos de acción y aventura. ¡Prepárate para una épica batalla entre gallinas y dragones!
