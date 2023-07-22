@@ -1,43 +1,43 @@
-# Juego Unity: Chicken vs Dragon
+# Unity Game: Chicken vs Dragon
 
 ![Chicken vs Dragon Logo](link_to_logo.png)
 
-## Descripción
+## Description
 
-Chicken vs Dragon es un emocionante juego de acción desarrollado en Unity. En este juego, los jugadores se sumergirán en una épica batalla entre gallinas y dragones. Los jugadores tomarán el papel de valientes gallinas que deben enfrentarse a feroces dragones para salvar su granja y su reino. El juego incorpora varios patrones de diseño, como el patrón Singleton y el Pooling System, y utiliza arquitecturas para juegos que garantizan una experiencia de juego fluida y altamente optimizada.
+Chicken vs Dragon is an exciting action game developed in Unity. In this game, players will immerse themselves in an epic battle between chickens and dragons. Players will take on the role of brave chickens who must confront fierce dragons to save their farm and kingdom. The game incorporates various design patterns, such as the Singleton pattern and the Pooling System, and utilizes game architectures that ensure a smooth and highly optimized gaming experience.
 
-## Características Principales
+## Key Features
 
-- **Batallas Épicas**: Los jugadores disfrutarán de emocionantes batallas entre gallinas y dragones, cada uno con sus habilidades únicas y ataques especiales.
+- **Epic Battles**: Players will enjoy thrilling battles between chickens and dragons, each with their unique abilities and special attacks.
 
-- **Diseño de Niveles Desafiantes**: El juego presenta niveles bien diseñados y desafiantes, donde los jugadores deberán superar obstáculos y derrotar a poderosos enemigos.
+- **Challenging Level Design**: The game features well-designed and challenging levels where players must overcome obstacles and defeat powerful enemies.
 
-- **Sistema de Puntuación y Líderes**: Chicken vs Dragon incluye un leaderboard para que los jugadores puedan competir por las mejores puntuaciones y demostrar sus habilidades.
+- **Scoring and Leaderboards**: Chicken vs Dragon includes a leaderboard, allowing players to compete for top scores and showcase their skills.
 
-- **Pooling System**: La implementación del Pooling System asegura una gestión eficiente de los recursos y la reutilización de objetos, lo que mejora significativamente el rendimiento del juego.
+- **Pooling System**: The implementation of the Pooling System ensures efficient resource management and object reuse, significantly improving game performance.
 
-- **Patrón Singleton**: Se utiliza el patrón Singleton para gestionar y mantener un estado compartido entre varias partes del juego, lo que garantiza una coherencia y eficiencia adecuadas.
+- **Singleton Pattern**: The Singleton pattern is used to manage and maintain shared state across various parts of the game, ensuring coherence and proper efficiency.
 
-- **Arte y Sonidos Únicos**: Todos los gráficos y efectos de sonido en el juego son creados por talentosos artistas y diseñadores de sonido, lo que ofrece una experiencia visual y auditiva inmersiva.
+- **Unique Art and Sounds**: All graphics and sound effects in the game are created by talented artists and sound designers, providing an immersive visual and auditory experience.
 
-- **Arquitecturas para Juegos**: Chicken vs Dragon ha sido desarrollado utilizando arquitecturas específicas para juegos que facilitan la gestión de escenas, flujo del juego y sistemas de interacción. Se ha empleado el popular Cinemachine para lograr una cinematografía impresionante y un control de cámaras dinámico.
+- **Game Architectures**: Chicken vs Dragon has been developed using specific game architectures that facilitate scene management, game flow, and interaction systems. The popular Cinemachine has been employed to achieve impressive cinematography and dynamic camera control.
 
-- **New Input System de Unity**: Para una experiencia de juego más fluida y una mejor gestión de los controles, Chicken vs Dragon utiliza el New Input System de Unity, lo que permite un manejo más preciso y una configuración sencilla para diferentes dispositivos.
+- **Unity's New Input System**: For a smoother gaming experience and better control management, Chicken vs Dragon uses Unity's New Input System, allowing for precise handling and easy configuration for different devices.
 
-## Objetivo del Juego
+## Objective of the Game
 
-En Chicken vs Dragon, los jugadores asumirán el rol de valientes gallinas que deben proteger su granja y reino de la invasión de dragones malvados. Deben derrotar a los dragones en emocionantes batallas uno a uno, utilizando sus habilidades y ataques especiales para ganar.
+In Chicken vs Dragon, players take on the role of brave chickens who must protect their farm and kingdom from the invasion of evil dragons. They must defeat the dragons in thrilling one-on-one battles, utilizing their skills and special attacks to emerge victorious.
 
-## Patrones de Diseño
+## Design Patterns
 
-### Patrón Singleton
+### Singleton Pattern
 
-El patrón Singleton se ha aplicado en áreas clave del juego, como la gestión de recursos, el sistema de puntuación y el acceso a las estadísticas del jugador. Esto asegura que solo exista una instancia de estas clases, evitando problemas de redundancia y permitiendo un acceso global coherente.
+The Singleton pattern has been applied in key areas of the game, such as resource management, scoring system, and player statistics. This ensures that only one instance of these classes exists, avoiding redundancy issues and allowing for coherent global access.
 
 ### Pooling System
 
-Para optimizar el rendimiento y evitar el costoso proceso de creación y destrucción de objetos, se ha implementado un Pooling System. Esto permite reutilizar objetos en el juego, como efectos de partículas, proyectiles y enemigos, lo que mejora significativamente la eficiencia y la fluidez del juego.
+To optimize performance and avoid the costly process of object creation and destruction, a Pooling System has been implemented. This allows for object reuse in the game, such as particle effects, projectiles, and enemies, significantly enhancing efficiency and gameplay fluidity.
 
-## Conclusiones
+## Conclusions
 
-Chicken vs Dragon es un emocionante juego de acción desarrollado en Unity que combina una jugabilidad cautivadora con una implementación experta de patrones de diseño como Singleton y Pooling System. Además, el uso de arquitecturas específicas para juegos, como Cinemachine, garantiza una experiencia de juego visualmente impresionante y cinematográfica. Los jugadores disfrutarán de una experiencia inmersiva gracias al arte y los efectos de sonido únicos creados por talentosos artistas. Con su leaderboard y desafiantes niveles, Chicken vs Dragon ofrece horas de diversión y entretenimiento para todos los amantes de los juegos de acción y aventura. ¡Prepárate para una épica batalla entre gallinas y dragones!
+Chicken vs Dragon is an exciting action game developed in Unity that combines captivating gameplay with expert implementation of design patterns like Singleton and Pooling System. Moreover, the use of specific game architectures, like Cinemachine, ensures a visually stunning and cinematic gaming experience. Players will enjoy an immersive experience thanks to unique art and sound effects crafted by talented artists. With its leaderboard and challenging levels, Chicken vs Dragon offers hours of fun and entertainment for all action and adventure game enthusiasts. Get ready for an epic battle between chickens and dragons!
